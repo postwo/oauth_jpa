@@ -1,6 +1,10 @@
 ### react 생성
-npx create-react-app [생성할 이름] --template typescript
+1. npx create-react-app [생성할 이름] --template typescript
 ex) npx create-react-app front --template typescript 타입스크림을 사용할거면 추가
+
+2. 패키지 추가
+npm i react-router-dom react-cookie axios
+
 
 ### tsconfig.json 에 "baseUrl" : "./src" 을 추가하면 경로 작성할때 매우 편해진다 
 
