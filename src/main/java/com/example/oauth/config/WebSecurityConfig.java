@@ -31,7 +31,6 @@ import java.io.IOException;
 public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final DefaultOAuth2UserService defaultOAuth2UserService;
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception{
