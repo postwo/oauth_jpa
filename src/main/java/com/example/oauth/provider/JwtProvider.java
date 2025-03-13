@@ -27,7 +27,7 @@ public class JwtProvider {
         //주입받은 비밀 키를 사용하여 HMAC SHA 알고리즘용 키 객체를 생성
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));// 시크릿키를 만든다
 
-        //payload에는 sub==subject,iat==setIssuedAt,exp==setExpiration 등 이 들어간다 -> 결론적으로는 내가 넣고 싶은대로 값을 변경할수 있다 
+        //payload에는 sub==subject,iat==setIssuedAt,exp==setExpiration 등 이 들어간다 -> 결론적으로는 내가 넣고 싶은대로 값을 변경할수 있다
         String jwt = Jwts.builder()
                 .signWith(key, SignatureAlgorithm.HS256) //위에서 생성한 키와 HS256 알고리즘을 사용하여 JWT를 서명
                 .setSubject(userId) //JWT의 subject(주제) 필드에 사용자 ID를 설정
