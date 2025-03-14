@@ -1,6 +1,8 @@
 package com.example.oauth.controller;
 
+import com.example.oauth.dto.request.auth.EmailCertificationRequestDto;
 import com.example.oauth.dto.request.auth.IdCheckRequestDto;
+import com.example.oauth.dto.response.auth.EmailCertificationReponseDto;
 import com.example.oauth.dto.response.auth.IdCheckResponseDto;
 import com.example.oauth.service.AuthService;
 import jakarta.validation.Valid;
@@ -24,5 +26,15 @@ public class AuthController {
         ResponseEntity<? super IdCheckResponseDto> response = authService.idCheck(requsetbody);
         return response;
     }
+
+    @PostMapping("/email-certification")
+    public ResponseEntity<? super EmailCertificationReponseDto> emailCertification (
+            @RequestBody @Valid EmailCertificationRequestDto requestbody
+    ){
+        System.out.println("Request Body: " + requestbody); // 요청 본문 디버깅
+        ResponseEntity<? super EmailCertificationReponseDto> response = authService.emailCertification(requestbody);
+        return response;
+    }
+
 
 }
