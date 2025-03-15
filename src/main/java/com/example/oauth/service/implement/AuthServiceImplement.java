@@ -1,9 +1,11 @@
 package com.example.oauth.service.implement;
 
 import com.example.oauth.common.CertificationNumber;
+import com.example.oauth.dto.request.auth.CheckCertificationRequestDto;
 import com.example.oauth.dto.request.auth.EmailCertificationRequestDto;
 import com.example.oauth.dto.request.auth.IdCheckRequestDto;
 import com.example.oauth.dto.response.ResponseDto;
+import com.example.oauth.dto.response.auth.CheckCertificationResponseDto;
 import com.example.oauth.dto.response.auth.EmailCertificationReponseDto;
 import com.example.oauth.dto.response.auth.IdCheckResponseDto;
 import com.example.oauth.entity.CertificationEntity;
@@ -72,5 +74,31 @@ public class AuthServiceImplement implements AuthService {
         }
 
         return EmailCertificationReponseDto.success();
+    }
+
+    //메일 인증 확인
+    @Override
+    public ResponseEntity<? super CheckCertificationResponseDto> checkCertification(CheckCertificationRequestDto dto) {
+        try{
+            String userId = dto.getId();
+            String email = dto.getEmail();
+            String certificationNumber = dto.getCertificationNumber();
+
+            CertificationEntity certificationEntity = certificationRepository.findByUserId(userId);
+            if (certificationEntity == null) return CheckCertificationResponseDto.certificationFail();
+
+            // trim == 문자열 공백 제거
+            String trimmedCertificationNumber = certificationNumber.trim();
+            String trimmedEntityCertificationNumber = certificationEntity.getCertificationNumber().trim();
+
+            boolean isMatched = certificationEntity.getEmail().equals(email) && trimmedEntityCertificationNumber.equals(trimmedCertificationNumber);
+            if (!isMatched) return  CheckCertificationResponseDto.certificationFail();//false일경우
+
+        }catch (Exception exception){
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return CheckCertificationResponseDto.success();
     }
 }

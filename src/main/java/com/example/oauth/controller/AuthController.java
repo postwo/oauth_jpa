@@ -1,7 +1,9 @@
 package com.example.oauth.controller;
 
+import com.example.oauth.dto.request.auth.CheckCertificationRequestDto;
 import com.example.oauth.dto.request.auth.EmailCertificationRequestDto;
 import com.example.oauth.dto.request.auth.IdCheckRequestDto;
+import com.example.oauth.dto.response.auth.CheckCertificationResponseDto;
 import com.example.oauth.dto.response.auth.EmailCertificationReponseDto;
 import com.example.oauth.dto.response.auth.IdCheckResponseDto;
 import com.example.oauth.service.AuthService;
@@ -35,6 +37,16 @@ public class AuthController {
         ResponseEntity<? super EmailCertificationReponseDto> response = authService.emailCertification(requestbody);
         return response;
     }
+
+    @PostMapping("/check-certification")
+    public ResponseEntity<? super CheckCertificationResponseDto> checkCertification(
+            @RequestBody @Valid CheckCertificationRequestDto requestbody
+    ){
+        //서버는 문제가 없다 react 단에서 문제다 = 인증번호 틀릴시 메시지 띄우는게 문제
+        ResponseEntity<? super CheckCertificationResponseDto> response = authService.checkCertification(requestbody);
+        return response;
+    }
+
 
 
 }
