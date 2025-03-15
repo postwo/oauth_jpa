@@ -15,5 +15,5 @@ public class CertificationEntity {
     @Id
     private String userId;
     private String email;
-    private String certificationNumber;
+    private String certificationNumber; // 메일로 온 인증번호
 }
