@@ -1,6 +1,7 @@
 package com.example.oauth.config;
 
 import com.example.oauth.filter.JwtAuthenticationFilter;
+import com.example.oauth.handler.OAuth2SuccessHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +33,10 @@ public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    private final DefaultOAuth2UserService defaultOAuth2UserService;
+
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception{
 
@@ -54,6 +59,14 @@ public class WebSecurityConfig {
                                 .anyRequest().authenticated()
                 )
 
+                .oauth2Login(oauth2 ->oauth2
+                        //http://localhost:4040/oauth2/authorization/{kakao,naver} == 이경로는 스프링시큐리티 자체 경롱이다 그러므로 이 요청명을 api/v1/auth/oauth2 이걸로 커스텀
+                        //http://localhost:4040/api/v1/auth/oauth2/{kakao,naver} 이렇게 커스텀 된다
+                        .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/v1/auth/oauth2"))
+                        .redirectionEndpoint(endpoint-> endpoint.baseUri("/oauth2/callback/*")) //redirect url => 이게 네이버 로그인페이지로 이동시키는 역할을 한다
+                        .userInfoEndpoint(endpoint -> endpoint.userService(defaultOAuth2UserService))
+                        .successHandler(oAuth2SuccessHandler)
+                )
 
                 //authorizeHttpRequests 에서 발생한 exception 이발생 한걸 처리
                 .exceptionHandling(exceptionHandling -> exceptionHandling

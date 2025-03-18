@@ -30,4 +30,12 @@ public class UserEntity {
         this.type = "app";
         this.role = "ROLE_USER";
     }
+
+    public UserEntity (String userId, String email , String type){
+        this.userId = userId;
+        this.password = "Password"; //이거는 의미가 없다
+        this.email  =  email;
+        this.type = type;
+        this.role = "ROLE_USER";
+    }
 }
